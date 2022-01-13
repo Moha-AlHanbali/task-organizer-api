@@ -24,4 +24,3 @@ TBA
 - Dashboard with tasks overview
 - Calendar Section
   - Yearly/ Monthly/ Weekly/ Daily Views
-  
