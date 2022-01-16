@@ -2,7 +2,7 @@
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django.contrib.auth.password_validation import validate_password
 from rest_framework.validators import UniqueValidator
-from django.contrib.auth.models import User
+from .models import CustomUser
 from rest_framework import serializers
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -18,15 +18,15 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 class AccountSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(
             required=True,
-            validators=[UniqueValidator(queryset=User.objects.all())]
+            validators=[UniqueValidator(queryset=CustomUser.objects.all())]
             )
 
     password = serializers.CharField(style={'input_type': 'password', 'placeholder': 'Password'},write_only=True, required=True, validators=[validate_password])
     password2 = serializers.CharField(style={'input_type': 'password', 'placeholder': 'Password'},write_only=True, required=True)
 
     class Meta:
-        model = User
-        fields = ('username', 'password', 'password2', 'email', 'first_name', 'last_name')
+        model = CustomUser
+        fields = ('username', 'password', 'password2', 'email', 'first_name', 'last_name', 'age')
         extra_kwargs = {
             'first_name': {'required': True},
             'last_name': {'required': True}
@@ -39,11 +39,12 @@ class AccountSerializer(serializers.ModelSerializer):
         return attrs
 
     def create(self, validated_data):
-        user = User.objects.create(
+        user = CustomUser.objects.create(
             username=validated_data['username'],
             email=validated_data['email'],
             first_name=validated_data['first_name'],
-            last_name=validated_data['last_name']
+            last_name=validated_data['last_name'],
+            age = validated_data['age']
         )
 
         
