@@ -18,6 +18,11 @@ This app is intended to be an easy to use todo list organizer. Allowing users to
 - OUT
   - TBA
 
+## Future Goals
+
+- Add Personal Projects Organizer
+- Render Timeline Activity Visualization
+
 ## Minimum Viable Product
 
 - Account Creation and Login functionality
