@@ -2,7 +2,7 @@
 
 ## Vision
 
-TBA
+This app is intended to be an easy to use todo list organizer. Allowing users to have their own accounts, keep track of their tasks, and plan ahead of time.
 
 ## Scope (In/Out)
 
@@ -17,6 +17,11 @@ TBA
 
 - OUT
   - TBA
+
+## Future Goals
+
+- Add Personal Projects Organizer
+- Render Timeline Activity Visualization
 
 ## Minimum Viable Product
 
