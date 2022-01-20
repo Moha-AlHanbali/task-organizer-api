@@ -3,9 +3,12 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAdminUser
 from django.core import serializers
 from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
 
 from .serializers import TaskSerializer
 from .models import Task
+from accounts.models import CustomUser
 from .permissions import IsOwner
 
 class ListTask(generics.ListCreateAPIView):
@@ -26,9 +29,10 @@ class DetailTask(generics.RetrieveUpdateDestroyAPIView):
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
 
-
+@csrf_exempt
 def get_tasks(request):
-    auth_user = request.user
+    body = json.loads(request.body.decode('utf-8'))
+    auth_user = CustomUser.objects.filter(pk=body['userID'])[0]
     if auth_user.is_authenticated:
         tasks = Task.objects.filter(user = auth_user)
         tasks_json = serializers.serialize('json', tasks)
