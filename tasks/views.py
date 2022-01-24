@@ -2,7 +2,7 @@ from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAdminUser
 from django.core import serializers
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse, response
 from django.views.decorators.csrf import csrf_exempt
 import json
 
@@ -36,7 +36,13 @@ def get_tasks(request):
     if auth_user.is_authenticated:
         tasks = Task.objects.filter(user = auth_user)
         tasks_json = serializers.serialize('json', tasks)
-        return HttpResponse(tasks_json, content_type='application/json')
+        tasks_object = json.loads(tasks_json)
+        res = {}
+
+        for task in tasks_object:
+            res.update({task['pk']:task['fields']})
+
+        return JsonResponse(res, status = status.HTTP_200_OK)
     else:
         return HttpResponse(status = status.HTTP_403_FORBIDDEN)
 
