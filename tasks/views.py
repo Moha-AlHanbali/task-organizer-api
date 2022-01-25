@@ -1,8 +1,9 @@
+from turtle import st
 from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from django.core import serializers
-from django.http import HttpResponse, JsonResponse, response
+from django.http import HttpResponse, JsonResponse, request, response
 from django.views.decorators.csrf import csrf_exempt
 import json
 
@@ -18,14 +19,15 @@ class ListTask(generics.ListCreateAPIView):
 
     def create(self, request):
         serializer = TaskSerializer(data=request.data)
-
         if serializer.is_valid():
             serializer.save(user = request.user)
-            return Response(request.data, status=status.HTTP_201_CREATED)
+            return HttpResponse(status=status.HTTP_201_CREATED)
+        else:
+            return HttpResponse(status = status.HTTP_400_BAD_REQUEST)
 
 
 class DetailTask(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = (IsOwner,)
+    permission_classes = (IsOwner, IsAuthenticated,)
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
 
