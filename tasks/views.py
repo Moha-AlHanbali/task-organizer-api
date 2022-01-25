@@ -1,6 +1,6 @@
 from rest_framework import generics, status
 from rest_framework.response import Response
-from rest_framework.permissions import IsAdminUser
+from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from django.core import serializers
 from django.http import HttpResponse, JsonResponse, response
 from django.views.decorators.csrf import csrf_exempt
@@ -12,7 +12,7 @@ from accounts.models import CustomUser
 from .permissions import IsOwner
 
 class ListTask(generics.ListCreateAPIView):
-    permission_classes = (IsAdminUser,)
+    permission_classes = (IsAuthenticated, )
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
 
