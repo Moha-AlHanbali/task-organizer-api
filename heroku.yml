@@ -4,4 +4,4 @@ build:
 release:
   image: web
 run:
-  web: gunicorn project.wsgi --workers 4
+  web: gunicorn task_organizer.wsgi --workers 4
